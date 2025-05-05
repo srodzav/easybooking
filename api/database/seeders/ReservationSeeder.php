@@ -27,6 +27,14 @@ class ReservationSeeder extends Seeder
                 'status' => 'pending',
                 'notes' => 'Reservación para el servicio 2',
             ],
+            [
+                'user_id' => 3,
+                'service_id' => 3,
+                'start_time' => '2025-05-22 09:00:00',
+                'end_time' => '2025-05-22 19:00:00',
+                'status' => 'pending',
+                'notes' => 'Reservación para el servicio 3',
+            ],
         ];
 
         foreach ($reservations as $reservation) {

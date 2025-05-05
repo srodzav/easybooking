@@ -29,6 +29,15 @@ class ServiceSeeder extends Seeder
                 'available_from' => '2025-05-21 09:00:00',
                 'available_to' => '2025-06-21 19:00:00',
             ],
+            [
+                'name' => 'Servicio 3',
+                'description' => 'Descripción del servicio 3',
+                'business_name' => 'Nombre del negocio 3',
+                'location' => 'Ubicación del negocio 3',
+                'price' => 300.00,
+                'available_from' => '2025-05-22 09:00:00',
+                'available_to' => '2025-06-22 19:00:00',
+            ],
         ];
         foreach ($services as $service) {
             Service::create($service);

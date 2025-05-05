@@ -25,6 +25,13 @@ class ReviewSeeder extends Seeder
                 'rating' => 4,
                 'comment' => 'Buen servicio, pero podría mejorar en algunos aspectos.',
             ],
+            [
+                'user_id' => 3,
+                'service_id' => 3,
+                'reservation_id' => 3,
+                'rating' => 2,
+                'comment' => 'Pesimo servicio.',
+            ],
         ];
 
         foreach ($reviews as $review) {

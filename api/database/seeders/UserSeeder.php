@@ -25,6 +25,13 @@ class UserSeeder extends Seeder
                 'phone' => '0987654321',
                 'role' => 0
             ],
+            [
+                'name' => 'User 01',
+                'email' => 'test@sebastianrdz.com',
+                'password' => bcrypt('password'),
+                'phone' => '0987654321',
+                'role' => 0
+            ],
         ];
         foreach ($users as $user) {
             User::create($user);
