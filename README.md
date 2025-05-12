@@ -31,7 +31,7 @@ easybooking/
 ### Clone the repository
 
 ```bash
-git clone https://github.com/your-username/easybooking.git
+git clone https://github.com/srodzav/easybooking.git
 cd easybooking
 ```
 ---
