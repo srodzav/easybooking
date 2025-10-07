@@ -21,7 +21,7 @@ class UserController extends Controller
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8',
             'phone' => 'nullable|string|max:20',
-            'role' => 'nullable|boolean',
+            'role' => 'nullable|integer|in:0,1',
         ]);
 
         $user = User::create([
@@ -29,7 +29,7 @@ class UserController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'phone' => $request->phone,
-            'role' => $request->role ?? false,
+            'role' => $request->role ?? 0,
         ]);
 
         return response()->json([
@@ -50,7 +50,7 @@ class UserController extends Controller
             'email' => 'sometimes|string|email|max:255|unique:users,email,' . $user->id,
             'password' => 'sometimes|string|min:8',
             'phone' => 'nullable|string|max:20',
-            'role' => 'nullable|boolean',
+            'role' => 'nullable|integer|in:0,1',
         ]);
 
         if ($request->has('password')) {
@@ -74,5 +74,33 @@ class UserController extends Controller
         return response()->json([
             'message' => 'User deleted successfully'
         ]);
+    }
+
+    /**
+     * Estadísticas del dashboard para administradores
+     */
+    public function dashboardStats()
+    {
+        $stats = [
+            'total_users' => \App\Models\User::count(),
+            'total_admins' => \App\Models\User::where('role', 1)->count(),
+            'total_clients' => \App\Models\User::where('role', 0)->count(),
+            'total_services' => \App\Models\Service::count(),
+            'total_reservations' => \App\Models\Reservation::count(),
+            'pending_reservations' => \App\Models\Reservation::where('status', 'pending')->count(),
+            'confirmed_reservations' => \App\Models\Reservation::where('status', 'confirmed')->count(),
+            'total_reviews' => \App\Models\Review::count(),
+            'average_rating' => \App\Models\Review::avg('rating'),
+            'recent_reservations' => \App\Models\Reservation::with(['user', 'service'])
+                ->latest()
+                ->limit(5)
+                ->get(),
+            'recent_reviews' => \App\Models\Review::with(['user', 'service'])
+                ->latest()
+                ->limit(5)
+                ->get(),
+        ];
+
+        return response()->json($stats);
     }
 }

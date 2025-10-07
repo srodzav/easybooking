@@ -30,7 +30,7 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
-            'role' => 'boolean',
+            'role' => 'integer',
         ];
     }
 
@@ -42,5 +42,21 @@ class User extends Authenticatable
     public function reviews()
     {
         return $this->hasMany(Review::class);
+    }
+
+    /**
+     * Verificar si el usuario es administrador
+     */
+    public function isAdmin(): bool
+    {
+        return $this->role === 1;
+    }
+
+    /**
+     * Verificar si el usuario es cliente
+     */
+    public function isClient(): bool
+    {
+        return $this->role === 0;
     }
 }
