@@ -12,7 +12,7 @@ export const navItems: INavData[] = [
   },
   {
     name: 'Usuarios',
-    url: '/theme/colors',
+    url: '/users',
     iconComponent: { name: 'cil-user' }
   },
   {
@@ -21,22 +21,17 @@ export const navItems: INavData[] = [
   },
   {
     name: 'Servicios',
-    url: '/theme/colors',
+    url: '/services',
     iconComponent: { name: 'cil-notes' }
   },
   {
-    name: 'Horarios',
-    url: '/theme/colors',
-    iconComponent: { name: 'cil-clock' }
-  },
-  {
     name: 'Reservas',
-    url: '/theme/colors',
+    url: '/reservations',
     iconComponent: { name: 'cil-calendar' }
   },
   {
     name: 'Reseñas',
-    url: '/theme/colors',
+    url: '/reviews',
     iconComponent: { name: 'cil-star' }
   },
   {
@@ -45,12 +40,12 @@ export const navItems: INavData[] = [
   },
   {
     name: 'Reportes',
-    url: '/theme/colors',
+    url: '/dashboard',
     iconComponent: { name: 'cil-spreadsheet' }
   },
   {
     name: 'Configuración',
-    url: '/theme/colors',
+    url: '/dashboard',
     iconComponent: { name: 'cil-settings' }
   }
 ];

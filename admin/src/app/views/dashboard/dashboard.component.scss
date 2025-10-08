@@ -1,0 +1,26 @@
+/* Estilos personalizados para el dashboard */
+
+.badge {
+  font-size: 0.875rem;
+}
+
+c-widget-stat-a {
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+c-widget-stat-a:hover {
+  transform: translateY(-2px);
+}
+
+.btn-outline-primary:hover,
+.btn-outline-success:hover,
+.btn-outline-info:hover,
+.btn-outline-warning:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.display-4 {
+  font-size: 3rem;
+}

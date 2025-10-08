@@ -45,7 +45,7 @@
 <!--</c-header>-->
 
 <ng-template #userDropdown>
-  <a cDropdownItem routerLink="">
+  <a cDropdownItem (click)="logout()" style="cursor: pointer;">
     <svg cIcon class="me-2" name="cilAccountLogout"></svg>
     Cerrar Sesión
   </a>

@@ -1,0 +1,35 @@
+/* Estilos personalizados para el login */
+
+.bg-body-tertiary {
+  background-color: #f8f9fa !important;
+}
+
+.card-group .card:not(:last-child) {
+  border-right: 0;
+}
+
+.card-group .card:not(:first-child) {
+  border-left: 0;
+}
+
+/* Animación para el spinner */
+.spinner-border-sm {
+  width: 0.875rem;
+  height: 0.875rem;
+}
+
+/* Estilo para el panel informativo */
+.bg-primary {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+}
+
+/* Validación de formularios */
+.is-invalid {
+  border-color: #dc3545;
+}
+
+.invalid-feedback {
+  display: block;
+  font-size: 0.875rem;
+  color: #dc3545;
+}

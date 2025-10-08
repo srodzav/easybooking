@@ -1,0 +1,261 @@
+<c-row>
+  <c-col md="10">
+    <h1>Dashboard de Administración</h1>
+    <p class="text-muted">Panel de control principal - EasyBooking</p>
+  </c-col>
+  <c-col md="2" class="text-end">
+    <button class="btn btn-outline-primary btn-sm" (click)="refreshStats()" [disabled]="loading">
+      <span *ngIf="loading" class="spinner-border spinner-border-sm me-2" role="status"></span>
+      <svg cIcon name="cilReload" class="me-1"></svg>
+      Actualizar
+    </button>
+  </c-col>
+</c-row>
+
+<!-- Mensaje de error -->
+<c-row *ngIf="error" class="mb-3">
+  <c-col md="12">
+    <div class="alert alert-danger" role="alert">
+      {{ error }}
+      <button class="btn btn-sm btn-outline-danger ms-2" (click)="refreshStats()">Reintentar</button>
+    </div>
+  </c-col>
+</c-row>
+
+<!-- Estadísticas principales -->
+<c-row class="mb-4">
+  <c-col sm="6" lg="3">
+    <c-widget-stat-a>
+      <ng-container>
+        <div class="d-flex align-items-center">
+          <div class="me-3">
+            <svg cIcon name="cilPeople" size="2xl" class="text-primary"></svg>
+          </div>
+          <div>
+            <div class="fs-6 fw-semibold text-primary">{{ stats.total_users }}</div>
+            <div class="text-body-secondary text-uppercase fw-semibold small">Usuarios Totales</div>
+          </div>
+        </div>
+      </ng-container>
+    </c-widget-stat-a>
+  </c-col>
+
+  <c-col sm="6" lg="3">
+    <c-widget-stat-a>
+      <ng-container>
+        <div class="d-flex align-items-center">
+          <div class="me-3">
+            <svg cIcon name="cilNotes" size="2xl" class="text-success"></svg>
+          </div>
+          <div>
+            <div class="fs-6 fw-semibold text-success">{{ stats.total_services }}</div>
+            <div class="text-body-secondary text-uppercase fw-semibold small">Servicios</div>
+          </div>
+        </div>
+      </ng-container>
+    </c-widget-stat-a>
+  </c-col>
+
+  <c-col sm="6" lg="3">
+    <c-widget-stat-a>
+      <ng-container>
+        <div class="d-flex align-items-center">
+          <div class="me-3">
+            <svg cIcon name="cilCalendar" size="2xl" class="text-info"></svg>
+          </div>
+          <div>
+            <div class="fs-6 fw-semibold text-info">{{ stats.total_reservations }}</div>
+            <div class="text-body-secondary text-uppercase fw-semibold small">Reservaciones</div>
+          </div>
+        </div>
+      </ng-container>
+    </c-widget-stat-a>
+  </c-col>
+
+  <c-col sm="6" lg="3">
+    <c-widget-stat-a>
+      <ng-container>
+        <div class="d-flex align-items-center">
+          <div class="me-3">
+            <svg cIcon name="cilStar" size="2xl" class="text-warning"></svg>
+          </div>
+          <div>
+            <div class="fs-6 fw-semibold text-warning">{{ stats.total_reviews }}</div>
+            <div class="text-body-secondary text-uppercase fw-semibold small">Reseñas</div>
+          </div>
+        </div>
+      </ng-container>
+    </c-widget-stat-a>
+  </c-col>
+</c-row>
+
+<!-- Información detallada -->
+<c-row>
+  <c-col md="6">
+    <c-card class="mb-4">
+      <c-card-header>
+        <strong>Estado de Reservaciones</strong>
+      </c-card-header>
+      <c-card-body>
+        <div class="mb-3">
+          <div class="d-flex justify-content-between">
+            <span>Pendientes</span>
+            <span class="badge bg-warning">{{ stats.pending_reservations }}</span>
+          </div>
+        </div>
+        <div class="mb-3">
+          <div class="d-flex justify-content-between">
+            <span>Confirmadas</span>
+            <span class="badge bg-success">{{ stats.confirmed_reservations }}</span>
+          </div>
+        </div>
+        <div class="mb-3">
+          <div class="d-flex justify-content-between">
+            <span>Completadas</span>
+            <span class="badge bg-info">{{ stats.completed_reservations }}</span>
+          </div>
+        </div>
+        <div class="mb-3">
+          <div class="d-flex justify-content-between">
+            <span>Canceladas</span>
+            <span class="badge bg-danger">{{ stats.cancelled_reservations }}</span>
+          </div>
+        </div>
+        <hr>
+        <div class="d-flex justify-content-between">
+          <span><strong>Total</strong></span>
+          <span class="badge bg-primary">{{ stats.total_reservations }}</span>
+        </div>
+      </c-card-body>
+    </c-card>
+  </c-col>
+
+  <c-col md="6">
+    <c-card class="mb-4">
+      <c-card-header>
+        <strong>Calificación Promedio</strong>
+      </c-card-header>
+      <c-card-body class="text-center">
+        <div class="display-4 text-warning mb-2">
+          <svg cIcon name="cilStar" size="xl"></svg>
+        </div>
+        <h2 class="text-warning">{{ stats.average_rating | number:'1.1-1' }}</h2>
+        <p class="text-muted">Basado en {{ stats.total_reviews }} reseñas</p>
+      </c-card-body>
+    </c-card>
+  </c-col>
+</c-row>
+
+<!-- Reservaciones recientes -->
+<c-row class="mb-4">
+  <c-col md="6">
+    <c-card>
+      <c-card-header>
+        <strong>Reservaciones Recientes</strong>
+      </c-card-header>
+      <c-card-body>
+        <div *ngIf="stats.recent_reservations?.length === 0" class="text-muted text-center py-3">
+          No hay reservaciones recientes
+        </div>
+        <div *ngFor="let reservation of stats.recent_reservations" class="border-bottom py-2">
+          <div class="d-flex justify-content-between align-items-start">
+            <div>
+              <h6 class="mb-1">{{ reservation.user_name }}</h6>
+              <p class="mb-1 text-muted small">{{ reservation.service_name }}</p>
+              <small class="text-muted">{{ reservation.reservation_date | date:'short' }}</small>
+            </div>
+            <span class="badge" [ngClass]="{
+              'bg-warning': reservation.status === 'pending',
+              'bg-success': reservation.status === 'confirmed',
+              'bg-info': reservation.status === 'completed',
+              'bg-danger': reservation.status === 'cancelled'
+            }">
+              {{ reservation.status }}
+            </span>
+          </div>
+        </div>
+        <div class="text-center mt-3">
+          <button class="btn btn-outline-info btn-sm" routerLink="/reservations">
+            Ver todas las reservaciones
+          </button>
+        </div>
+      </c-card-body>
+    </c-card>
+  </c-col>
+
+  <!-- Reseñas recientes -->
+  <c-col md="6">
+    <c-card>
+      <c-card-header>
+        <strong>Reseñas Recientes</strong>
+      </c-card-header>
+      <c-card-body>
+        <div *ngIf="stats.recent_reviews?.length === 0" class="text-muted text-center py-3">
+          No hay reseñas recientes
+        </div>
+        <div *ngFor="let review of stats.recent_reviews" class="border-bottom py-2">
+          <div class="d-flex justify-content-between align-items-start">
+            <div>
+              <h6 class="mb-1">{{ review.user_name }}</h6>
+              <p class="mb-1 text-muted small">{{ review.service_name }}</p>
+              <p class="mb-1">{{ review.comment | slice:0:50 }}<span *ngIf="review.comment?.length > 50">...</span></p>
+              <small class="text-muted">{{ review.created_at | date:'short' }}</small>
+            </div>
+            <div class="text-end">
+              <div class="text-warning">
+                <span *ngFor="let star of [1,2,3,4,5]">
+                  <svg cIcon name="cilStar" size="sm" [class.text-warning]="star <= review.rating" [class.text-muted]="star > review.rating"></svg>
+                </span>
+              </div>
+              <span class="badge bg-warning">{{ review.rating }}</span>
+            </div>
+          </div>
+        </div>
+        <div class="text-center mt-3">
+          <button class="btn btn-outline-warning btn-sm" routerLink="/reviews">
+            Ver todas las reseñas
+          </button>
+        </div>
+      </c-card-body>
+    </c-card>
+  </c-col>
+</c-row>
+
+<!-- Acciones rápidas -->
+<c-row>
+  <c-col md="12">
+    <c-card>
+      <c-card-header>
+        <strong>Acciones Rápidas</strong>
+      </c-card-header>
+      <c-card-body>
+        <div class="row g-3">
+          <div class="col-md-3">
+            <button class="btn btn-outline-primary w-100" routerLink="/users">
+              <svg cIcon name="cilUser" class="me-2"></svg>
+              Gestionar Usuarios
+            </button>
+          </div>
+          <div class="col-md-3">
+            <button class="btn btn-outline-success w-100" routerLink="/services">
+              <svg cIcon name="cilNotes" class="me-2"></svg>
+              Gestionar Servicios
+            </button>
+          </div>
+          <div class="col-md-3">
+            <button class="btn btn-outline-info w-100" routerLink="/reservations">
+              <svg cIcon name="cilCalendar" class="me-2"></svg>
+              Ver Reservaciones
+            </button>
+          </div>
+          <div class="col-md-3">
+            <button class="btn btn-outline-warning w-100" routerLink="/reviews">
+              <svg cIcon name="cilStar" class="me-2"></svg>
+              Ver Reseñas
+            </button>
+          </div>
+        </div>
+      </c-card-body>
+    </c-card>
+  </c-col>
+</c-row>

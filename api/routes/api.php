@@ -6,6 +6,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\DashboardController;
 
 // Rutas públicas
 Route::post('/login', [AuthController::class, 'login']);
@@ -54,7 +55,12 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::middleware('admin')->group(function () {
         Route::get('/all-reservations', [ReservationController::class, 'index']);
         Route::get('/all-reviews', [ReviewController::class, 'index']);
-        Route::get('/dashboard/stats', [UserController::class, 'dashboardStats']);
+        
+        // Dashboard estadísticas
+        Route::get('/dashboard/stats', [DashboardController::class, 'getStats']);
+        Route::get('/dashboard/recent-reservations', [DashboardController::class, 'getRecentReservations']);
+        Route::get('/dashboard/recent-reviews', [DashboardController::class, 'getRecentReviews']);
+        
         Route::apiResource('reservations', ReservationController::class)->except(['index']);
         Route::apiResource('reviews', ReviewController::class)->except(['index', 'show']);
     });
